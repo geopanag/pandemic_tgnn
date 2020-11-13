@@ -1,4 +1,4 @@
-# Transfer Graph Neural Networks for Pandemic Forecasting
+# [Transfer Graph Neural Networks for Pandemic Forecasting](https://arxiv.org/abs/2009.08388)
 
 
 ## Data
