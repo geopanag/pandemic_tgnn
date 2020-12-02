@@ -13,8 +13,8 @@ We have preprocessed the data and the final versions are in each country's subfo
 
 ### Graphs
 
-The graphs are formed using the movement data from facebook data for good disease prevention map [data](https://dataforgood.fb.com/docs/covid19/). More specifically we used the total number of people moving in daily from one region to another , from the [[Movement between Administrative Regions]](https://dataforgood.fb.com/tools/movement-range-maps/) datasets. We can not share the initial data as Facebook requires a data license agreement, but we can share the aggregated and diminished version in the graphs folder of each country.
-These include the mobility maps between administrative regions that we use in our experiments until 12/5/2020, starting from 13/3 for England, 12/3 for Spain, 10/3 for France and 24/2 for Italy.
+The graphs are formed using the movement data from facebook Data For Good disease prevention [maps](https://dataforgood.fb.com/docs/covid19/). More specifically, we used the total number of people moving daily from one region to another, using the [[Movement between Administrative Regions]](https://dataforgood.fb.com/tools/movement-range-maps/) datasets. We can not share the initial data due to the data license agreement, but after contacting the FB Data for Good team, we reached the consensus that we can share an aggregated and diminished version which was used for our experiments. 
+These can be found inside the "graphs" folder of each country.These include the mobility maps between administrative regions that we use in our experiments until 12/5/2020, starting from 13/3 for England, 12/3 for Spain, 10/3 for France and 24/2 for Italy.
 
 
 
