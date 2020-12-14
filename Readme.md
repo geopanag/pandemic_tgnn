@@ -8,7 +8,7 @@
 
 We gather the ground truth for number of confiremed cases per region through open data for [[Italy]](https://github.com/pcm-dpc/COVID-19/blob/master/dati-province/dpc-covid19-ita-province.csv),
 [[England]](https://coronavirus.data.gov.uk) and [[Spain]](https://code.montera34.com:4443/numeroteca/covid19/-/blob/master/data/output/spain/covid19-provincias-spain_consolidated.csv}}).
-We have preprocessed the data and the final versions are in each country's subfolder in the data folder. In order to map the english mobility regions from FB data to the regions for which we have ground truth, we utilized two more datasets added to the resepctive folder as well.
+We have preprocessed the data and the final versions are in each country's subfolder in the data folder.
 
 
 ### Graphs
