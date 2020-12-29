@@ -253,7 +253,7 @@ def generate_new_features(Gs, labels, dates, country, window=7, scaled=False):
 
 
 
-def generate_new_batches(Gs, features, y, idx, graph_window, shift, batch_size, device, test_sample, pred_tables = []):
+def generate_new_batches(Gs, features, y, idx, graph_window, shift, batch_size, device, test_sample):
     """
     Generate batches for graphs for MPNN
     """
@@ -293,13 +293,7 @@ def generate_new_batches(Gs, features, y, idx, graph_window, shift, batch_size, 
                     y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
                     
                 else:
-                    
-                    if(len(pred_tables)>0):
-                        # for one sample after last known sample (test_sample) we know the predictions of shift 0,
-                        # for two samples we know the predictions of shift 1 etc.. 
-                        y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = pred_tables[(val+shift)- test_sample][:,val+shift]
-                    else:
-                        y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val]
+                    y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val]
                         
                         
             else:
@@ -355,12 +349,7 @@ def generate_batches_lstm(n_nodes, y, idx, window, shift, batch_size, device,tes
                 if(val+shift<test_sample):
                     y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
                 else:
-                    if(len(pred_tables)>0):
-                        # for one sample after last known sample (test_sample) we know the predictions of shift 0,
-                        # for two samples we know the predictions of shift 1 etc.. 
-                        y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = pred_tables[(val+shift)- test_sample][:,val+shift]
-                    else:
-                        y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val]
+                    y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val]
                         
             else:
                 #y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
