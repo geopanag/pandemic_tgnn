@@ -15,13 +15,14 @@ We have preprocessed the data and the final versions are in each country's subfo
 
 The graphs are formed using the movement data from facebook Data For Good disease prevention [maps](https://dataforgood.fb.com/docs/covid19/). More specifically, we used the total number of people moving daily from one region to another, using the [Movement between Administrative Regions](https://dataforgood.fb.com/tools/movement-range-maps/) datasets. We can not share the initial data due to the data license agreement, but after contacting the FB Data for Good team, we reached the consensus that we can share an aggregated and diminished version which was used for our experiments. 
 These can be found inside the "graphs" folder of each country.These include the mobility maps between administrative regions that we use in our experiments until 12/5/2020, starting from 13/3 for England, 12/3 for Spain, 10/3 for France and 24/2 for Italy.
+The mapplots require the gadm1_nuts3_counties_sf_format.Rds file which can be found at the Social Connectedness Index [data](https://dataforgood.fb.com/tools/social-connectedness-index/).
 
 
 
 ## Code
 
 ### Requirements
-To run this code you will need the following python packages:
+To run this code you will need the following python and R packages:
  
 * [numpy](https://www.numpy.org/)
 * [pandas](https://pandas.pydata.org/)
@@ -31,6 +32,10 @@ To run this code you will need the following python packages:
 * [networkx 1.11](https://networkx.github.io/)
 * [sklearn](https://scikit-learn.org/stable/)
 
+* dplyr
+* sf
+* ggplot2
+* sp
 
 ### Run
 To run the experiments with the default settings:
@@ -45,6 +50,6 @@ python metalearn.py
  
 ```
 
-Use the script "gather_for_map.py" to aggregate data in the output folder to produce the map plots and the "tl_base.py" for the TL_BASE baseline. 
+Use the script "gather_for_map.py" to aggregate data in the output folder to produce the map plots and the "tl_base.py" for the TL_BASE baseline. Use the "error_case_maps.R" to plot the maps of England (adjust  it for the other countries). 
 
 
