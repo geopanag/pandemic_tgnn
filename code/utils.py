@@ -33,10 +33,10 @@ def read_meta_datasets(window):
     dates = [str(date) for date in dates]
     
     
-    Gs = generate_graphs_tmp(dates,"IT")  # generate_graphs_by_day(dates,"IT")
+    Gs = generate_graphs_tmp(dates,"IT") 
     #labels = labels[,:]
     labels = labels.loc[list(Gs[0].nodes()),:]
-    labels = labels.loc[:,dates]    #labels.sum(1).values>10
+    labels = labels.loc[:,dates]    
      
     meta_labs.append(labels)
     gs_adj = [nx.adjacency_matrix(kgs).toarray().T for kgs in Gs]
@@ -71,8 +71,8 @@ def read_meta_datasets(window):
     dates = [str(date) for date in dates]
     
     
-    #Gs = generate_graphs_by_day(dates,"ES")
-    Gs = generate_graphs_tmp(dates,"ES")# generate_graphs_by_day(dates,"IT")
+    
+    Gs = generate_graphs_tmp(dates,"ES")# 
     labels = labels.loc[list(Gs[0].nodes()),:]
     labels = labels.loc[:,dates]    #labels.sum(1).values>10
    
@@ -109,12 +109,12 @@ def read_meta_datasets(window):
     dates = [sdate + timedelta(days=i) for i in range(delta.days+1)]
     dates = [str(date) for date in dates]
 
-    #Gs = generate_graphs_britain(dates)
-    Gs = generate_graphs_tmp(dates,"EN")# generate_graphs_by_day(dates,"IT")
+    
+    Gs = generate_graphs_tmp(dates,"EN")
     
     labels = labels.loc[list(Gs[0].nodes()),:]
     #print(labels.shape)
-    labels = labels.loc[:,dates]    #labels.sum(1).values>10
+    labels = labels.loc[:,dates]    
     
     meta_labs.append(labels)
 
@@ -152,8 +152,8 @@ def read_meta_datasets(window):
     labels = labels.loc[:,dates]    #labels.sum(1).values>10
 
     
-    #Gs = generate_graphs_by_day(dates,"FR")
-    Gs = generate_graphs_tmp(dates,"FR")# generate_graphs_by_day(dates,"IT")
+    
+    Gs = generate_graphs_tmp(dates,"FR")
     gs_adj = [nx.adjacency_matrix(kgs).toarray().T for kgs in Gs]
 
     labels = labels.loc[list(Gs[0].nodes()),:]
