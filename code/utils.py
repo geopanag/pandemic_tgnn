@@ -276,7 +276,7 @@ def generate_new_batches(Gs, features, y, idx, graph_window, shift, batch_size, 
 
         y_tmp = np.zeros((min(i+batch_size, N)-i)*n_nodes)
 
-        #---- fill the input for each batch
+        #fill the input for each batch
         for e1,j in enumerate(range(i, min(i+batch_size, N) )):
             val = idx[j]
 
@@ -298,11 +298,9 @@ def generate_new_batches(Gs, features, y, idx, graph_window, shift, batch_size, 
                         
                         
             else:
-                #y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
                 y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
         
         adj_tmp = sp.block_diag(adj_tmp)
-        #adj_lst.append(adj_tmp.to(device))
         adj_lst.append(sparse_mx_to_torch_sparse_tensor(adj_tmp).to(device))
         features_lst.append(torch.FloatTensor(features_tmp).to(device))
         y_lst.append(torch.FloatTensor(y_tmp).to(device))
@@ -329,7 +327,6 @@ def generate_batches_lstm(n_nodes, y, idx, window, shift, batch_size, device,tes
         step = n_nodes*1
 
         adj_tmp = list()
-        #features_tmp = np.zeros((n_nodes_batch, features[0].shape[1]))
         features_tmp = np.zeros((window, n_nodes_batch))#features.shape[1]))
         
         y_tmp = np.zeros((min(i+batch_size, N)-i)*n_nodes)
@@ -346,19 +343,16 @@ def generate_batches_lstm(n_nodes, y, idx, window, shift, batch_size, device,tes
                     features_tmp[e2, (e1*step):(e1*step+n_nodes)] = np.array(y[k])#.reshape([n_nodes,1])#
 
             if(test_sample>0):
-                #--- val is by construction less than test sample
+                # val is by construction less than test sample
                 if(val+shift<test_sample):
                     y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
                 else:
                     y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val]
                         
             else:
-                #y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
+         
                 y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]       
-            #y_tmp[(n_nodes*e1):(n_nodes*(e1+1))] = y[val+shift]
-            #for k in range(n_nodes):
-            #    y_tmp[(n_nodes*e1)+k] = np.mean([y[v][k] for v in range(val,val+shift_targets)])
-                
+         
         adj_fake.append(0)
         
         features_lst.append(torch.FloatTensor(features_tmp).to(device))
