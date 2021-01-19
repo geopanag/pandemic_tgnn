@@ -24,7 +24,7 @@ import numpy as np
 import os
 
 from models import MPNN
-from utils import generate_new_features, generate_new_batches, generate_graphs_by_day, read_meta_datasets, AverageMeter
+from utils import generate_new_features, generate_new_batches, read_meta_datasets, AverageMeter
 
 
 
