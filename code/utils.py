@@ -15,13 +15,14 @@ import os
     
     
 def read_meta_datasets(window):
+    os.chdir("../data")
     meta_labs = []
     meta_graphs = []
     meta_features = []
     meta_y = []
 
     #------------------ Italy
-    os.chdir("/Italy")
+    os.chdir("Italy")
     labels = pd.read_csv("italy_labels.csv")
     del labels["id"]
     labels = labels.set_index("name")
@@ -58,7 +59,7 @@ def read_meta_datasets(window):
     
     
     #------------------------- Spain
-    os.chdir("/Spain")
+    os.chdir("../Spain")
     labels = pd.read_csv("spain_labels.csv")
 
     labels = labels.set_index("name")
@@ -97,7 +98,7 @@ def read_meta_datasets(window):
     
     
     #---------------- Britain
-    os.chdir("/Britain")
+    os.chdir("../England")
     labels = pd.read_csv("england_labels.csv")
     #del labels["id"]
     labels = labels.set_index("name")
@@ -137,7 +138,7 @@ def read_meta_datasets(window):
     
     
     #---------------- France
-    os.chdir("/France")
+    os.chdir("../France")
     labels = pd.read_csv("france_labels.csv")
     #del labels["id"]
     labels = labels.set_index("name")
@@ -174,7 +175,7 @@ def read_meta_datasets(window):
 
     meta_y.append(y)
     
-    os.chdir("/new_code")
+    os.chdir("../../code")
 
     return meta_labs, meta_graphs, meta_features, meta_y
     
