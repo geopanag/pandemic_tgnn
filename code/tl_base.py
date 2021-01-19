@@ -83,7 +83,7 @@ if __name__ == '__main__':
     
     meta_labs, meta_graphs, meta_features, meta_y = read_meta_datasets(args.window)
 
-    for args.country in ["IT"]:#,",
+    for args.country in ["IT","ES","EN","FR"]:#,",
 
         if(args.country=="IT"):
             meta_train = [1,2,3]
@@ -99,19 +99,19 @@ if __name__ == '__main__':
         else:
             meta_train = [0,1,2]
             meta_test = 3
-        #print(meta_features[0][0].shape)
         nfeat = meta_features[0][0].shape[1]
 
         
         print("Meta Train")
-        
-        fw = open("new_results/results_"+args.country+"_tl_base.csv","a")#results/
+        if not os.path.exists('../results'):
+            os.makedirs('../results')
+        fw = open("../results/results_"+args.country+"_tl_base.csv","a")#results/
         fw.write("shift,loss,loss_std\n")
         
         model_theta = '../model.pth.tar'
 
         #------ Initialize the model
-        #pred_tables = {}
+        
         
         for shift in list(range(0,args.ahead)):
             
@@ -236,10 +236,8 @@ if __name__ == '__main__':
                     if(not stuck):
                         checkpoint = torch.load(model_theta) 
                         model.load_state_dict(checkpoint['state_dict'])
-                        #model.fc2 = nn.Linear(args.hidden, 1).to(device) # output layer still trained from scratch
                         optimizer.load_state_dict(checkpoint['optimizer'])
-                        #num_ftrs = model.fc2.in_features 
-
+                    
                         
                     for epoch in range(args.epochs):    
                         start = time.time()
@@ -257,10 +255,6 @@ if __name__ == '__main__':
 
                         output, val_loss = test(adj_val[0], features_val[0], y_val[0])
                         val_loss = int(val_loss.detach().cpu().numpy())
-
-
-                        #if(epoch%50==0):
-                        #    print("Epoch:", '%03d' % (epoch + 1), "train_loss=", "{:.5f}".format(train_loss.avg),"val_loss=", "{:.5f}".format(val_loss), "time=", "{:.5f}".format(time.time() - start))
 
                         val_among_epochs.append(val_loss)
 
