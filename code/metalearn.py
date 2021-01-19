@@ -99,7 +99,7 @@ if __name__ == '__main__':
         else:
             meta_train = [0,1,2]
             meta_test = 3
-        #print(meta_features[0][0].shape)
+
         nfeat = meta_features[0][0].shape[1]
 
         model_eta = '../model_eta.pth.tar'
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                      
                     #----------- Backprop eta using the test sample
                     output, loss = train(adj_test[0], features_test[0], y_test[0])
-                    print(str(train_idx)+" "+str(test_sample)+" theta generalization=", '%03d'%loss.cpu().detach().numpy())
+                    print("meta train set "+str(train_idx)+" test sample "+str(test_sample)+" theta generalization=", '%03d'%loss.cpu().detach().numpy())
                  
 			#------------ Take delta from the meta training 
                     w1 = model.conv1.weight.grad.clone()
@@ -313,6 +313,8 @@ if __name__ == '__main__':
                 #------ Store to map plot                    
                 error = np.sum(abs(o-l))
                 df = pd.DataFrame({'n': labels.index,'o':o, 'l':l})
+                if not os.path.exists('output'):
+                    os.makedirs('output')
                 df.to_csv("output/out_"+args.country+"_"+str(test_sample)+"_"+str(shift)+".csv",index=False) 
 
                 n_nodes = adj_test[0].shape[0]
