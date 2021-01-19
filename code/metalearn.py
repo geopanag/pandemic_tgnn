@@ -119,8 +119,9 @@ if __name__ == '__main__':
                 norm_grad += 48-args.start_exp-shift
             
         print("Meta Train")
-        
-        fw = open("results_"+args.country+"_tl_.csv","a")#results/
+        if not os.path.exists('../results'):
+            os.makedirs('../results')
+        fw = open("../results/results_"+args.country+"_tl_.csv","a")#results/
         fw.write("shift,loss,loss_std\n")
         
         #------ Initialize the model
