@@ -123,7 +123,7 @@ if __name__ == '__main__':
                     fw.write("ARIMA,"+str(idx)+",{:.5f}".format(e/count)+",{:.5f}".format(np.std(var[idx]))+"\n")
                 continue
 
-			#---- predict days ahead
+			#---- predict days ahead , 0-> next day etc.
             for shift in list(range(0,args.ahead)):
 
                 result = []
