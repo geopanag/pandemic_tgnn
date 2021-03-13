@@ -252,7 +252,7 @@ if __name__ == '__main__':
 
                             if(epoch<30 and epoch>10):
                                 if(len(set([round(val_e) for val_e in val_among_epochs[-20:]])) == 1 ):
-                                    stuck= True
+                                    #stuck= True
                                     stop = False
                                     break
 
