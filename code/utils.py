@@ -44,7 +44,7 @@ def read_meta_datasets(window):
 
     meta_graphs.append(gs_adj)
 
-    features = generate_new_features(Gs ,labels ,dates ,"IT",window )
+    features = generate_new_features(Gs ,labels ,dates ,window )
 
     meta_features.append(features)
 
@@ -83,7 +83,7 @@ def read_meta_datasets(window):
 
     meta_graphs.append(gs_adj)
 
-    features = generate_new_features(Gs ,labels ,dates ,"ES",window )
+    features = generate_new_features(Gs ,labels ,dates ,window )
 
     meta_features.append(features)
 
@@ -122,7 +122,7 @@ def read_meta_datasets(window):
     gs_adj = [nx.adjacency_matrix(kgs).toarray().T for kgs in Gs]
     meta_graphs.append(gs_adj)
 
-    features = generate_new_features(Gs ,labels ,dates ,"EN",window)
+    features = generate_new_features(Gs ,labels ,dates ,window)
     meta_features.append(features)
 
     y = list()
@@ -163,7 +163,7 @@ def read_meta_datasets(window):
 
     meta_graphs.append(gs_adj)
 
-    features = generate_new_features(Gs ,labels ,dates ,"FR",window)
+    features = generate_new_features(Gs ,labels ,dates ,window)
 
     meta_features.append(features)
 
@@ -200,7 +200,7 @@ def generate_graphs_tmp(dates,country):
 
 
 
-def generate_new_features(Gs, labels, dates, country, window=7, scaled=False):
+def generate_new_features(Gs, labels, dates, window=7, scaled=False):
     """
     Generate node features
     Features[1] contains the features corresponding to y[1]
@@ -214,17 +214,17 @@ def generate_new_features(Gs, labels, dates, country, window=7, scaled=False):
   
 
     #--- one hot encoded the region
-    departments_name_to_id = dict()
-    for node in nodes:
-        departments_name_to_id[node] = len(departments_name_to_id)
+    #departments_name_to_id = dict()
+    #for node in nodes:
+    #    departments_name_to_id[node] = len(departments_name_to_id)
 
-    n_departments = len(departments_name_to_id)
-    n_departments=0
+    #n_departments = len(departments_name_to_id)
+    
     #print(n_departments)
     for idx,G in enumerate(Gs):
         #  Features = population, coordinates, d past cases, one hot region
         
-        H = np.zeros([G.number_of_nodes(),window+n_departments]) #+3+n_departments])#])#])
+        H = np.zeros([G.number_of_nodes(),window]) #+3+n_departments])#])#])
         me = labs.loc[:, dates[:(idx)]].mean(1)
         sd = labs.loc[:, dates[:(idx)]].std(1)+1
 
