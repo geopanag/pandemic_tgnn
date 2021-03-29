@@ -23,19 +23,7 @@ The mapplots require the gadm1_nuts3_counties_sf_format.Rds file which can be fo
 
 ### Requirements
 To run this code you will need the following python and R packages:
- 
-* [numpy](https://www.numpy.org/)
-* [pandas](https://pandas.pydata.org/)
-* [scipy](https://www.scipy.org/)
-* [pytorch 1.5.1](https://pytorch.org/)
-* [pytorch-geometric 1.5.0](https://github.com/rusty1s/pytorch_geometric)
-* [networkx 1.11](https://networkx.github.io/)
-* [sklearn](https://scikit-learn.org/stable/)
-
-* dplyr
-* sf
-* ggplot2
-* sp
+[numpy](https://www.numpy.org/), [pandas](https://pandas.pydata.org/), [scipy](https://www.scipy.org/) ,[pytorch 1.5.1](https://pytorch.org/), [pytorch-geometric 1.5.0](https://github.com/rusty1s/pytorch_geometric), [networkx 1.11](https://networkx.github.io/), [sklearn](https://scikit-learn.org/stable/), dplyr, sf, ggplot2, sp.
 
 ### Run
 To run the experiments with the default settings:
@@ -52,4 +40,15 @@ python metalearn.py
 
 Use the script "gather_for_map.py" to aggregate data in the output folder to produce the map plots and the "tl_base.py" for the TL_BASE baseline. Use the "error_case_maps.R" to plot the maps of England (adjust  it for the other countries). 
 
+## Citation
 
+If you find the methods or the datasets useful in your research, please consider adding the following citation:
+
+```bibtex
+@article{panagopoulos2020transfer,
+  title={Transfer Graph Neural Networks for Pandemic Forecasting},
+  author={Panagopoulos, George and Nikolentzos, Giannis and Vazirgiannis, Michalis},
+  year={2021}
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+}
+```
