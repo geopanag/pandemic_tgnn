@@ -48,7 +48,7 @@ If you find the methods or the datasets useful in your research, please consider
 @article{panagopoulos2020transfer,
   title={Transfer Graph Neural Networks for Pandemic Forecasting},
   author={Panagopoulos, George and Nikolentzos, Giannis and Vazirgiannis, Michalis},
-  year={2021}
   booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  year={2021}
 }
 ```
