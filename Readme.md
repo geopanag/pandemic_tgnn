@@ -45,10 +45,10 @@ Use the script "gather_for_map.py" to aggregate data in the output folder to pro
 If you find the methods or the datasets useful in your research, please consider adding the following citation:
 
 ```bibtex
-@article{panagopoulos2020transfer,
-  title={Transfer Graph Neural Networks for Pandemic Forecasting},
+@inproceedings{panagopoulos2020transfer,
+  title={{Transfer Graph Neural Networks for Pandemic Forecasting}},
   author={Panagopoulos, George and Nikolentzos, Giannis and Vazirgiannis, Michalis},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  year={2021}
+  booktitle={Proceedings of the 35th AAAI Conference on Artificial Intelligence},
+  year={2021},
 }
 ```
