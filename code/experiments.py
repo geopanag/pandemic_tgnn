@@ -297,18 +297,15 @@ if __name__ == '__main__':
                         o = output.cpu().detach().numpy()
                         l = y_test[0].cpu().numpy()
 
-                    error = np.sum(abs(o-l))
-                    #df = pd.DataFrame({'o':o, 'l':l})
-                    #if(args.model=="GCN_COV"):
-                    #    df.to_csv("output/out_"+str(test_sample)+"_"+str(shift)+".csv",index=False)    #---- store for the map
-
-                    #print(error/n_nodes)
+	            # average error per region
+                    error = np.sum(abs(o-l))/n_nodes
+			
                     # Print results
                     print("test error=", "{:.5f}".format(error))
                     result.append(error)
 
 
-                print("{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(  np.sum(labels.iloc[:,args.start_exp:test_sample].mean(1))))#+",{:.5f}".format(means)
+                print("{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(  np.sum(labels.iloc[:,args.start_exp:test_sample].mean(1))))
 
                 fw.write(str(args.model)+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
                 #fw.write(hypers+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
