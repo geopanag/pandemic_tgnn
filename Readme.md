@@ -26,7 +26,7 @@ To run this code you will need the following python and R packages:
 [numpy](https://www.numpy.org/), [pandas](https://pandas.pydata.org/), [scipy](https://www.scipy.org/) ,[pytorch 1.5.1](https://pytorch.org/), [pytorch-geometric 1.5.0](https://github.com/rusty1s/pytorch_geometric), [networkx 1.11](https://networkx.github.io/), [sklearn](https://scikit-learn.org/stable/), dplyr, sf, ggplot2, sp.
 
 #### Requirements for MAC
-For MAC users, please use these versions: torch 1.7.0, torch-cluster 1.5.9 , torch-geometric 2.0.1 , torch-scatter 2.0.7, torch-sparse 0.6.12, torch-spline-conv 1.2.1.
+For MAC users, please use these versions: torch 1.7.0, torch-cluster 1.5.9 , torch-geometric 2.0.1 , torch-scatter 2.0.7, torch-sparse 0.6.12, torch-spline-conv 1.2.1., pystan 2.18.0.0 (for FB prophet).
 
 
 ### Run
