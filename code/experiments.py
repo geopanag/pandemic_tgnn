@@ -236,7 +236,7 @@ if __name__ == '__main__':
 
                             #for i in range(n_val_batches):
                             output, val_loss = test(adj_val[0], features_val[0], y_val[0])
-                            val_loss = int(val_loss.detach().cpu().numpy())
+                            val_loss = float(val_loss.detach().cpu().numpy())
 
 
                             # Print results
