@@ -56,3 +56,6 @@ If you find the methods or the datasets useful in your research, please consider
   year={2021},
 }
 ```
+**License**
+
+- [MIT License](https://github.com/geopanag/pandemic_tgnn/blob/master/LICENSE)
