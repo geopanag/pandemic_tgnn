@@ -143,7 +143,7 @@ if __name__ == '__main__':
                     if(args.model=="AVG"):
                         avg = labels.iloc[:,:test_sample-1].mean(axis=1)
                         targets_lab = labels.iloc[:,test_sample+shift]
-                        error = np.sum(abs(avg - targets_lab))
+                        error = np.sum(abs(avg - targets_lab))/n_nodes
                         print(error)
                         result.append(error)
                         continue        
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                         win_lab = labels.iloc[:,test_sample-1]
                         #print(win_lab[1])
                         targets_lab = labels.iloc[:,test_sample+shift]#:(test_sample+1)]
-                        error = np.sum(abs(win_lab - targets_lab))#/avg)
+                        error = np.sum(abs(win_lab - targets_lab))/n_nodes#/avg)
                         if(not np.isnan(error)):
                             result.append(error)
                         else:
@@ -164,7 +164,7 @@ if __name__ == '__main__':
                     if(args.model=="AVG_WINDOW"):
                         win_lab = labels.iloc[:,(test_sample-args.window):test_sample]
                         targets_lab = labels.iloc[:,test_sample+shift]#:
-                        error = np.sum(abs(win_lab.mean(1) - targets_lab))
+                        error = np.sum(abs(win_lab.mean(1) - targets_lab))/n_nodes
                         if(not np.isnan(error)):
                             result.append(error)
                         else:
