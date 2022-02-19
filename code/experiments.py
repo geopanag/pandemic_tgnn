@@ -109,7 +109,7 @@ if __name__ == '__main__':
                 count = len(range(args.start_exp,n_samples-args.ahead))
                 for idx,e in enumerate(error):
                     #fw.write(args.model+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
-                    fw.write("PROPHET,"+str(idx)+",{:.5f}".format(e/count)+",{:.5f}".format(np.std(var[idx]))+"\n")
+                    fw.write("PROPHET,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+",{:.5f}".format(np.std(var[idx]))+"\n")
                 continue
 
 
@@ -119,7 +119,7 @@ if __name__ == '__main__':
                 count = len(range(args.start_exp,n_samples-args.ahead))
 
                 for idx,e in enumerate(error):
-                    fw.write("ARIMA,"+str(idx)+",{:.5f}".format(e/count)+",{:.5f}".format(np.std(var[idx]))+"\n")
+                    fw.write("ARIMA,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+",{:.5f}".format(np.std(var[idx]))+"\n")
                 continue
 
 			#---- predict days ahead , 0-> next day etc.
