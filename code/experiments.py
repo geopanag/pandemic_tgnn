@@ -12,6 +12,7 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
+
 from math import ceil
 
 import itertools
@@ -19,11 +20,25 @@ import pandas as pd
 
 
 from utils import generate_new_features, generate_new_batches, AverageMeter,generate_batches_lstm, read_meta_datasets
-from models import MPNN_LSTM, LSTM, MPNN, prophet, arima
+from models import MPNN_LSTM, LSTM, MPNN, arima
         
 
     
-def train(epoch, adj, features, y):
+def train(model, adj, features, y):
+    """Train the model 
+
+    Parameters:
+    model (torch.nn.Module): Model to train
+    adj (torch.Tensor): Adjacency matrix
+    features (torch.Tensor): Features matrix
+    y (torch.Tensor): Labels matrix
+
+
+    Returns:
+    output (torch.Tensor): Output predictions of the model
+    loss_train (torch.Tensor): Loss of the model
+    """
+
     optimizer.zero_grad()
     output = model(adj, features)
     loss_train = F.mse_loss(output, y)
@@ -33,7 +48,20 @@ def train(epoch, adj, features, y):
 
 
 
-def test(adj, features, y):    
+def test(model, adj, features, y):
+    """
+    Test the model
+    
+    Parameters:
+    model (torch.nn.Module): Model to test
+    adj (torch.Tensor): Adjacency matrix
+    features (torch.Tensor): Features matrix
+    y (torch.Tensor): Labels matrix
+
+    Returns:
+    output (torch.Tensor): Output predictions of the model
+    loss_test (torch.Tensor): Loss of the model
+    """    
     output = model(adj, features)
     loss_test = F.mse_loss(output, y)
     return output, loss_test
@@ -75,6 +103,7 @@ if __name__ == '__main__':
     
     
     for country in ["IT","ES","FR","EN"]:#,",
+        print("Country "+country)
         if(country=="IT"):
             idx = 0
 
@@ -95,23 +124,14 @@ if __name__ == '__main__':
         nfeat = meta_features[0][0].shape[1]
         
         n_nodes = gs_adj[0].shape[0]
-        print(n_nodes)
-         if not os.path.exists('../results'):
+        
+        if not os.path.exists('../results'):
             os.makedirs('../results')
         fw = open("../results/results_"+country+".csv","a")
 
         
-        for args.model in ["PROPHET","ARIMA","AVG_WINDOW","AVG","MPNN","MPNN_LSTM","LSTM"]:#
+        for args.model in ["ARIMA","AVG_WINDOW","AVG","MPNN","MPNN_LSTM","LSTM"]:#
             
-            if(args.model=="PROPHET"):
-
-                error, var = prophet(args.ahead,args.start_exp,n_samples,labels)
-                count = len(range(args.start_exp,n_samples-args.ahead))
-                for idx,e in enumerate(error):
-                    #fw.write(args.model+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
-                    fw.write("PROPHET,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+",{:.5f}".format(np.std(var[idx]))+"\n")
-                continue
-
 
             if(args.model=="ARIMA"):
 
@@ -119,7 +139,8 @@ if __name__ == '__main__':
                 count = len(range(args.start_exp,n_samples-args.ahead))
 
                 for idx,e in enumerate(error):
-                    fw.write("ARIMA,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+",{:.5f}".format(np.std(var[idx]))+"\n")
+                    fw.write("ARIMA,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+
+                             ",{:.5f}".format(np.std(var[idx]))+"\n")
                 continue
 
 			#---- predict days ahead , 0-> next day etc.
@@ -196,12 +217,12 @@ if __name__ == '__main__':
 
 
                     #-------------------- Training
-                    # Model and optimizer
                     stop = False#
                     while(not stop):#
                         if(args.model=="LSTM"):
 
-                            model = LSTM(nfeat=lstm_features, nhid=args.hidden, n_nodes=n_nodes, window=args.window, dropout=args.dropout,batch_size = args.batch_size, recur=args.recur).to(device)
+                            model = LSTM(nfeat=lstm_features, nhid=args.hidden, n_nodes=n_nodes, window=args.window, 
+                                         dropout=args.dropout,batch_size = args.batch_size, recur=args.recur).to(device)
 
                         elif(args.model=="MPNN_LSTM"):
 
@@ -218,7 +239,7 @@ if __name__ == '__main__':
                         best_val_acc= 1e8
                         val_among_epochs = []
                         train_among_epochs = []
-                        stop = False
+                        #stop = False
 
                         for epoch in range(args.epochs):    
                             start = time.time()
@@ -228,40 +249,39 @@ if __name__ == '__main__':
 
                             # Train for one epoch
                             for batch in range(n_train_batches):
-                                output, loss = train(epoch, adj_train[batch], features_train[batch], y_train[batch])
+                                output, loss = train(model, adj_train[batch], features_train[batch], y_train[batch])
                                 train_loss.update(loss.data.item(), output.size(0))
 
                             # Evaluate on validation set
                             model.eval()
 
                             #for i in range(n_val_batches):
-                            output, val_loss = test(adj_val[0], features_val[0], y_val[0])
+                            output, val_loss = test(model, adj_val[0], features_val[0], y_val[0])
                             val_loss = float(val_loss.detach().cpu().numpy())
 
 
                             # Print results
                             if(epoch%50==0):
-                                #print("Epoch:", '%03d' % (epoch + 1), "train_loss=", "{:.5f}".format(train_loss.avg), "time=", "{:.5f}".format(time.time() - start))
                                 print("Epoch:", '%03d' % (epoch + 1), "train_loss=", "{:.5f}".format(train_loss.avg),"val_loss=", "{:.5f}".format(val_loss), "time=", "{:.5f}".format(time.time() - start))
 
                             train_among_epochs.append(train_loss.avg)
                             val_among_epochs.append(val_loss)
 
-                            #print(int(val_loss.detach().cpu().numpy()))
-
+                            # check if the model is stuck
                             if(epoch<30 and epoch>10):
                                 if(len(set([round(val_e) for val_e in val_among_epochs[-20:]])) == 1 ):
                                     #stuck= True
-                                    stop = False
+                                    print("Break becuase it s stuck")
+                                    stop = True
                                     break
 
                             if( epoch>args.early_stop):
                                 if(len(set([round(val_e) for val_e in val_among_epochs[-50:]])) == 1):#
-                                    print("break")
-                                    #stop = True
+                                    print("Break for early stop")
+                                    stop = True
                                     break
 
-                            stop = True
+                            #stop = True
 
 
                             #--------- Remember best accuracy and save checkpoint
@@ -308,7 +328,6 @@ if __name__ == '__main__':
                 print("{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(  np.sum(labels.iloc[:,args.start_exp:test_sample].mean(1))))
 
                 fw.write(str(args.model)+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
-                #fw.write(hypers+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+"\n")
 
     fw.close()
 

@@ -206,6 +206,8 @@ def generate_new_features(Gs, labels, dates, window=7, scaled=False):
     Features[1] contains the features corresponding to y[1]
     e.g. if window = 7, features[7]= day0:day6, y[7] = day7
     if the window reaches before 0, everything is 0, so features[3] = [0,0,0,0,day0,day1,day2], y[3] = day3
+
+    
     """
     features = list()
     

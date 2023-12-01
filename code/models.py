@@ -5,83 +5,49 @@ from torch_geometric.nn import GCNConv
 import networkx as nx
 import numpy as np
 import scipy.sparse as sp
-
-
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler
-
-from fbprophet import Prophet
-from statsmodels.tsa.arima_model import ARIMA
-
-from PyInstaller.utils.hooks import collect_submodules, collect_data_files
-
-hiddenimports = collect_submodules('fbprophet')
-datas = collect_data_files('fbprophet')
+from statsmodels.tsa.arima.model import ARIMA
 
 
 
             
-def arima(ahead,start_exp,n_samples,labels):
-    var = []
+def arima(ahead,start_exp,n_samples,labels, max_iter=1000,arima_method='lbfgs',arima_tol=1e-6):
+    for_variances = []
     for idx in range(ahead):
-        var.append([])
+        for_variances.append([])
 
-    error= np.zeros(ahead)
+    total_error= np.zeros(ahead)
     count = 0
     for test_sample in range(start_exp,n_samples-ahead):#
-        print(test_sample)
+        print(f'Arima test sample {test_sample}')
         count+=1
-        err = 0
+        sample_error = np.zeros(ahead)
         for j in range(labels.shape[0]):
             ds = labels.iloc[j,:test_sample-1].reset_index()
 
             if(sum(ds.iloc[:,1])==0):
                 yhat = [0]*(ahead)
             else:
-                try:
-                    fit2 = ARIMA(ds.iloc[:,1].values, (2, 0, 2)).fit()
-                except:
-                    fit2 = ARIMA(ds.iloc[:,1].values, (1, 0, 0)).fit()
+                #try:
+                #    fit2 = ARIMA(ds.iloc[:,1].values, order = (2, 0, 2)).fit(method="statespace")
+                #except Warning as warning:
+                fit2 = ARIMA(ds.iloc[:,1].values, order =  (1, 0, 0)).fit(method="statespace")
                 #yhat = abs(fit2.predict(start = test_sample , end = (test_sample+ahead-1) ))
-                yhat = abs(fit2.predict(start = test_sample , end = (test_sample+ahead-2) ))
-            y_me = labels.iloc[j,test_sample:test_sample+ahead]
-            e =  abs(yhat - y_me.values)
-            err += e
-            error += e
-
-        for idx in range(ahead):
-            var[idx].append(err[idx])
-    return error, var
-
-
-
-def prophet(ahead, start_exp, n_samples, labels):
-    var = []
-    for idx in range(ahead):
-        var.append([])
-
-    error= np.zeros(ahead)
-    count = 0
-    for test_sample in range(start_exp,n_samples-ahead):#
-        print(test_sample)
-        count+=1
-        err = 0
-        for j in range(labels.shape[0]):
-            ds = labels.iloc[j,:test_sample].reset_index()
-            ds.columns = ["ds","y"]
-            #with suppress_stdout_stderr():
-            m = Prophet(interval_width=0.95)
-            m.fit(ds)
-            future = m.predict(m.make_future_dataframe(periods=ahead))
-            yhat = future["yhat"].tail(ahead)
-            y_me = labels.iloc[j,test_sample:test_sample+ahead]
-            e =  abs(yhat-y_me.values).values
-            err += e
-            error += e
-        for idx in range(ahead):
-            var[idx].append(err[idx])
+                yhat = abs(fit2.predict(start = test_sample , end = (test_sample+ahead-1) ))
             
-    return error, var
+            y_me = labels.iloc[j,test_sample:test_sample+ahead]
+            
+            e =  abs(yhat - y_me.values)
+            sample_error += e
+            total_error += e
+
+        for idx in range(ahead):
+            for_variances[idx].append(sample_error[idx])
+    return total_error, for_variances
+
+
+
             
             
             
