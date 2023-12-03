@@ -22,7 +22,7 @@ The mapplots require the gadm1_nuts3_counties_sf_format.Rds file which can be fo
 ## Code
 
 ### Requirements
-To run this code you will need the following python and R packages:
+To run this code you will need the following python=3.8 and R packages:
 [numpy](https://www.numpy.org/), [pandas](https://pandas.pydata.org/), [scipy](https://www.scipy.org/) ,[pytorch 1.5.1](https://pytorch.org/), [pytorch-geometric 1.5.0](https://github.com/rusty1s/pytorch_geometric), [networkx 1.11](https://networkx.github.io/), [sklearn](https://scikit-learn.org/stable/), dplyr, sf, ggplot2, sp.
 
 #### Requirements for MAC

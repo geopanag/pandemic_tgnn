@@ -1,0 +1,10 @@
+{
+    "countries" : ["Italy","Spain","England","France"],
+    "country_idx":  {"IT":0,"ES":1,"EN":2,"FR":3},
+    "country_labels": ["italy_labels.csv","spain_labels.csv","england_labels.csv","france_labels.csv"],
+    "country_start_month":[2,3,3,3],
+    "country_start_day":[24,12,13,10],
+    "country_end_month":[5,5,5,5],
+    "country_end_day":[12,12,12,12]
+}
+    
