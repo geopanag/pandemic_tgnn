@@ -1,4 +1,3 @@
-
 import torch
 import numpy as np
 from math import ceil
@@ -31,7 +30,6 @@ def train(model: torch.nn.Module ,
     output (torch.Tensor): Output predictions of the model
     loss_train (torch.Tensor): Loss of the model
     """
-
     optimizer.zero_grad()
     output = model(adj, features)
     loss_train = F.mse_loss(output, y)

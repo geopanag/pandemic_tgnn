@@ -6,15 +6,12 @@ library(sp)
 # for england
 country = "england"
 
-
-
 setwd(paste0("/data/output/",country))
 
 res = read.csv("en_map_plot_5.csv")
 res$X=NULL
 
-
-shapes_in = readRDS("/data/gadm1_nuts3_counties/geometries/gadm1_nuts3_counties_sf_format.Rds")
+shapes_in = readRDS("/data/geometries/gadm1_nuts3_counties_sf_format.Rds")
 
 shape_names = read.csv("data/shape_names_fixed.csv")
 
@@ -24,8 +21,6 @@ shapes_it = shapes_in[shapes_in$country=="GBR",]
 shapes_it$country = NULL
 codes = read.csv("new_br.csv")
 codes =codes[codes$code!="-",]
-
-
 
 
 #------- keep only the nodes in shapes

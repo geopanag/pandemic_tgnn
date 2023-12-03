@@ -30,13 +30,13 @@ For MAC users, please use these versions: torch 1.7.0, torch-cluster 1.5.9 , tor
 
 
 ### Run
-To run the experiments with the default settings:
+To run the experiments with the default settings and the default config (attached):
 
 ```bash
 
 cd code
 
-python experiments.py
+python main.py
  
 python metalearn.py
  

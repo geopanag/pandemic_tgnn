@@ -1,16 +1,7 @@
-import time
-import argparse
 import networkx as nx
-import numpy as np
-import scipy.sparse as sp
-from sklearn import preprocessing
-import os
-import pandas as pd
 
-from math import ceil
 from datetime import date, timedelta
 
-import itertools
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
@@ -41,15 +32,12 @@ delta = edate - sdate
 dates = [sdate + timedelta(days=i) for i in range(delta.days+1)]
 dates = [str(date) for date in dates]
 
-
 Gs = generate_graphs_by_day(dates,"IT")
 #labels = labels[,:]
 labels = labels.loc[Gs[0].nodes(),:]
 
 labels = labels.loc[labels.sum(1).values>10,dates]    
 gs_adj = [nx.adjacency_matrix(kgs).toarray().T for kgs in Gs]
-
-
 
 y = list()
 for i,G in enumerate(Gs):
@@ -64,10 +52,6 @@ main["cases"] = pd.DataFrame(labels.loc[nodez,labels.columns[start_exp]:].sum(1)
 main = main.reset_index()
 
 
-#df = pd.DataFrame(labels.iloc[:,start_exp:].mean(1))
-#df.columns = ["avg_cases"]
-#df["cases"] = pd.DataFrame(labels.iloc[:,start_exp:].sum(1))
-#df = df.reset_index()
 
 os.chdir("/output")
 x0 = []
@@ -229,7 +213,7 @@ labels = labels.set_index("name")
 
 sdate = date(2020, 3, 10)
 edate = date(2020, 5, 12)
-#Gs = generate_graphs(dates)
+
 delta = edate - sdate
 dates = [sdate + timedelta(days=i) for i in range(delta.days+1)]
 dates = [str(date) for date in dates]
@@ -240,8 +224,6 @@ Gs = generate_graphs_by_day(dates,"FR")
 
 labels = labels.loc[Gs[0].nodes(),:]
 
-
-#nodez = Gs[0].nodes()
 main = pd.DataFrame(labels.loc[:,labels.columns[start_exp]:].mean(1))
 main.columns = ["avg_cases"]
 main["cases"] = pd.DataFrame(labels.loc[:,labels.columns[start_exp]:].sum(1))
@@ -256,23 +238,23 @@ x4 = []
 for i in range(15,64-step):
     try:
         x0.append(pd.read_csv("out_FR_"+str(i)+"_0.csv"))
-        #df.drop(df.columns[0],1))
+        
     except:
         print(i)
     try:
         x1.append(pd.read_csv("out_FR_"+str(i)+"_1.csv"))
-        #df.drop(df.columns[0],1))
+        
     except:
         print(i)
 
     try:
         x2.append(pd.read_csv("out_FR_"+str(i)+"_2.csv"))
-        #df.drop(df.columns[0],1))
+        
     except:
         print(i)
     try:
         x3.append(pd.read_csv("out_FR_"+str(i)+"_3.csv"))
-        #df.drop(df.columns[0],1))
+        
     except:
         print(i)
     try:
