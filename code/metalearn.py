@@ -24,7 +24,8 @@ import numpy as np
 import os
 
 from models import MPNN
-from preprocess import generate_features, generate_batches, read_meta_datasets, AverageMeter
+from preprocess import generate_batches, read_meta_datasets, AverageMeter
+import json 
 
 
 
@@ -80,8 +81,12 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else torch.device("cpu"))
     args = parser.parse_args()
     
+    with open('config.json', 'r') as config_file:
+        config = json.load(config_file)
     
-    meta_labs, meta_graphs, meta_features, meta_y = read_meta_datasets(args.window)
+    country_idx = config['country_idx']
+
+    meta_labs, meta_graphs, meta_features, meta_y = read_meta_datasets(args.window, config, list(country_idx.keys()))
 
     for args.country in ["IT","ES","EN","FR"]:#,",
 
@@ -121,6 +126,7 @@ if __name__ == '__main__':
         print("Meta Train")
         if not os.path.exists('../results'):
             os.makedirs('../results')
+            
         fw = open("../results/results_"+args.country+"_tl_.csv","a")#results/
         fw.write("shift,loss,loss_std\n")
         
@@ -145,9 +151,9 @@ if __name__ == '__main__':
                 for test_sample in range(args.start_exp,n_samples - shift): 
                     idx_train = list(range(args.window-1, test_sample))
                     
-                    adj_train, features_train, y_train = generate_new_batches(gs, features, y, idx_train, 1,shift,args.batch_size,device,test_sample)
+                    adj_train, features_train, y_train = generate_batches(gs, features, y, idx_train, 1,shift,args.batch_size ,device, test_sample)
                     
-                    adj_test, features_test, y_test = generate_new_batches(gs, features, y,  [test_sample], 1, shift, args.batch_size, device,-1)
+                    adj_test, features_test, y_test = generate_batches(gs, features, y,  [test_sample], 1, shift, args.batch_size, device,-1)
 
                     n_train_batches = ceil(len(idx_train)/args.batch_size)
                     n_test_batches = 1
@@ -170,7 +176,7 @@ if __name__ == '__main__':
                     output, loss = train(adj_test[0], features_test[0], y_test[0])
                     print("meta train set "+str(train_idx)+" test sample "+str(test_sample)+" theta generalization=", '%03d'%loss.cpu().detach().numpy())
                  
-			#------------ Take delta from the meta training 
+			        #------------ Take delta from the meta training 
                     w1 = model.conv1.weight.grad.clone()
                     b1 = model.bn1.weight.grad.clone()
                     
@@ -219,9 +225,9 @@ if __name__ == '__main__':
                 idx_train = idx_train+list(range(test_sample-args.sep+1,test_sample,2))
                 
                 
-                adj_train, features_train, y_train = generate_new_batches(gs, features, y, idx_train, 1, shift,args.batch_size,device,test_sample)
-                adj_val, features_val, y_val = generate_new_batches(gs, features, y, idx_val, 1, shift,args.batch_size,device,test_sample)
-                adj_test, features_test, y_test = generate_new_batches(gs, features, y,  [test_sample], 1, shift,args.batch_size, device,-1)
+                adj_train, features_train, y_train = generate_batches(gs, features, y, idx_train, 1, shift, args.batch_size, device, test_sample)
+                adj_val, features_val, y_val = generate_batches(gs, features, y, idx_val, 1, shift,args.batch_size,device,test_sample)
+                adj_test, features_test, y_test = generate_batches(gs, features, y,  [test_sample], 1, shift,args.batch_size, device,-1)
 
                 n_train_batches = ceil(len(idx_train)/args.batch_size)
                 n_val_batches = 1
