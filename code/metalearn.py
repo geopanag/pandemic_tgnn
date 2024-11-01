@@ -24,7 +24,7 @@ import numpy as np
 import os
 
 from models import MPNN
-from pandemic_tgnn.code.preprocess import generate_new_features, generate_new_batches, read_meta_datasets, AverageMeter
+from preprocess import generate_features, generate_batches, read_meta_datasets, AverageMeter
 
 
 
